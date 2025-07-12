@@ -16,7 +16,7 @@ let router = createBrowserRouter([
     ),
   },
   {
-    path: '/details',
+    path: '/details/:id',
     element: (
       <App>
         <Details />
