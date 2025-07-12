@@ -1,7 +1,16 @@
 import React from 'react';
+import Header from './components/header/Header';
 
-const App = () => {
-  return <h1>Películas por categoría</h1>;
+const App = ({ children }: { children?: React.ReactNode }) => {
+  return (
+    <>
+      <Header />
+      <main>{children}</main>
+      <footer className="footer">
+        <p>&copy; 2023 Movie App</p>
+      </footer>
+    </>
+  );
 };
 
 export default App;

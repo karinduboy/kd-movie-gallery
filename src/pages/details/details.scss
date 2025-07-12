@@ -1,0 +1,105 @@
+.details-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    .details-content {
+        display: flex;
+        width:100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        overflow: hidden;
+        justify-content: space-between;
+        gap: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        &:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-placeholder {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60vw;
+            height: 60vh;
+            background-color: #e0e0e0; // Light gray background for placeholder
+            border: 1px dashed #ccc; // Dashed border to indicate placeholder
+            border-radius: 5px;
+            overflow: hidden;
+
+            img {
+                display: block;
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: fill;
+            }
+
+            &::before {
+                content: "Image not available"; // Fallback text
+                display: none;
+                font-size: 16px;
+                color: #888;
+            }
+
+            // Show fallback text if no image is present
+            img[src=""] {
+                display: none;
+            }
+
+            img[src=""] + &::before {
+                display: block;
+            }
+        }
+
+        .movie-info {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            justify-content: flex-start;
+            background-color: #fff;
+
+            .wishlist-button {
+                align-self: flex-end;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 20px;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+
+            .movie-data {
+                display: flex;
+                flex-direction: column;
+
+                .data-item {
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                    color: #333;
+                }
+            }
+        }
+    }
+
+    .additional-info {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+
+        .info-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+    }
+}
