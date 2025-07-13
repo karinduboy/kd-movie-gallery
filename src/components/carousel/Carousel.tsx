@@ -19,7 +19,7 @@ const Carousel: React.FC<CarouselProps> = (props) => {
             <Card
                   key={movie.id}
                   id={movie.id}
-                  poster_path={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  poster_path={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
                   isFavorite={false}
                   title={movie.title}
                   release_date={movie.release_date}

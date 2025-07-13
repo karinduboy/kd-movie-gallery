@@ -17,10 +17,11 @@ const Details: React.FC = () => {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY; // Retrieve API key from .env
+  
   useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const apiKey = 'c6f4b7af00ff89712efe89669fe19897'; // Replace with your TMDB API key
+      const fetchMovieDetails = async () => {
+          try {
         const response = await fetch(
           `https://api.themoviedb.org/3/movie/${movieId ? parseInt(movieId) : ''}?api_key=${apiKey}&language=en-US`
         );

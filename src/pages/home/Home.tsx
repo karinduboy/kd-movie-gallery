@@ -9,7 +9,8 @@ const Home: React.FC = () => {
   const [nowPlayingMovies, setNowPlayingMovies] = useState<MoviesListResponse[]>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<MoviesListResponse[]>([]);
 
-  const apiKey = 'c6f4b7af00ff89712efe89669fe19897'; // Replace with your TMDB API key
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY; // Retrieve API key from .env
+  console.log('TMDB API Key:', apiKey); // Log the API key for debugging purposes
   const baseUrl = 'https://api.themoviedb.org/3';
 
   const fetchMovies = async (endpoint: string, setter: React.Dispatch<React.SetStateAction<MoviesListResponse[]>>) => {
