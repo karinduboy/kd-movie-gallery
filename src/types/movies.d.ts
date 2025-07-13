@@ -21,7 +21,7 @@ export interface CarouselProps {
 }
 
 
-export type MovieDetails = {
+export type MovieInformation = {
   key?: string; //opcional property for React key
   isFavorite?: boolean; // Optional property to indicate if the movie is a favorite
   adult: boolean;
@@ -58,7 +58,7 @@ export type MovieDetails = {
 }
 
 export type MoviesListResponse = {
-  results: MovieDetails[];
+  results: MovieInformation[];
   page: number;
   dates?: {
     maximum: string;

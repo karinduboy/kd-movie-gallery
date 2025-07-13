@@ -5,6 +5,8 @@
   "repository": "https://github.com/karinduboy/kd-movie-gallery.git",
   "license": "MIT",
   "dependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "js-cookie": "^3.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"

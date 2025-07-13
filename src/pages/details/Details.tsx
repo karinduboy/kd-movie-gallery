@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useWishlist } from '../../context/WishlistContext';
 import './Details.scss';
+import { MovieInformation } from '../../types/movies';
 
 interface MovieDetails {
   title: string;
@@ -14,7 +16,8 @@ interface MovieDetails {
 
 const Details: React.FC = () => {
   const { id: movieId } = useParams<{ id: string }>();
-  const [movie, setMovie] = useState<MovieDetails | null>(null);
+  const { addToWishlist } = useWishlist();
+  const [movie, setMovie] = useState<MovieInformation | null>(null);
   const [loading, setLoading] = useState(true);
 
   const apiKey = import.meta.env.VITE_TMDB_API_KEY; // Retrieve API key from .env
@@ -40,8 +43,9 @@ const Details: React.FC = () => {
             genres: data.genres.map((genre: { id: number; name: string }) => ({ 
                 id: genre.id, name: genre.name 
             })), 
-            vote_average: data.vote_average.toFixed(1)
-        } as MovieDetails);
+            vote_average: data.vote_average.toFixed(1),
+            isFavorite: false, // Default value, can be updated later
+        } as Partial<MovieInformation>) as MovieInformation;
         setMovie(movie);
       } catch (error) {
         console.error('Error fetching movie details:', error);
@@ -72,6 +76,9 @@ const Details: React.FC = () => {
           />
         </div>
         <div className="movie-info">
+          <button className="wishlist-button" onClick={() => addToWishlist(movie)}>
+            Add to Wishlist
+          </button>
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
           <p>
