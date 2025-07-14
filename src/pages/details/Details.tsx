@@ -5,6 +5,7 @@ import './Details.scss';
 import { MovieDetails } from '../../types/movies';
 import { fetchMovieDetails } from '../../utils/tmdbApi';
 import { transformMovieDetails } from '../../utils/dataTransform';
+import { useCategory } from '../../context/CategoryContext';
 
 
 const Details: React.FC = () => {
@@ -12,6 +13,9 @@ const Details: React.FC = () => {
   const { addToWishlist } = useWishlist();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
+  const {selectedCategory} = useCategory();
+
+
   
   useEffect(() => {
       const retrieveMovieDetails = async () => {
@@ -50,9 +54,12 @@ const Details: React.FC = () => {
           />
         </div>
         <div className="movie-info">
-          <button className="wishlist-button" onClick={() => addToWishlist(movie)}>
+            <button 
+            className={`wishlist-button${selectedCategory ? `--${selectedCategory.toLowerCase().replace(/\s+/g, '-')}` : ''}`} 
+            onClick={() => addToWishlist({id: Number(movieId) , title: movie.title, poster_path: movie.poster_path})}
+            >
             Add to Wishlist
-          </button>
+            </button>
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
           <p>

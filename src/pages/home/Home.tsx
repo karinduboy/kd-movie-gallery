@@ -4,6 +4,7 @@ import { fetchMoviesList } from '../../utils/tmdbApi';
 import './home.scss';
 import { MoviesListResponse } from '../../types/movies';
 import { MoviesListType } from '../../types/configuration';
+import { useCategory } from '../../context/CategoryContext';
 
 const initialMovieList = {
   results: [],
@@ -13,6 +14,7 @@ const initialMovieList = {
 };
 
 const Home: React.FC = () => {
+  const { setSelectedCategory } = useCategory();
   const [loading, setLoading] = useState(true);
   const [trendingPeriod, setTrendingPeriod] = useState<'trending_day' | 'trending_week'>('trending_day');
   const [popularMovies,setPopularMovies] = useState<MoviesListResponse>(initialMovieList);
@@ -65,6 +67,10 @@ const Home: React.FC = () => {
     fetchTrendingMovies();
   }, [trendingPeriod]);
 
+  const handleCardClick = (category: string) => {
+    setSelectedCategory(category);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -91,19 +97,19 @@ const Home: React.FC = () => {
             Week
           </button>
         </div>
-        <Carousel movies={trendingMovies} />
+        <Carousel movies={trendingMovies} onCardClick={() => handleCardClick('Trending')} />
       </section>
       <section className="popular-movies">
         <h2 className="category">Popular Movies</h2>
-        <Carousel movies={popularMovies} />
+        <Carousel movies={popularMovies} onCardClick={() => handleCardClick('Popular')} />
       </section>
       <section className="now-playing-movies">
         <h2 className="category">Now Playing</h2>
-        <Carousel movies={nowPlayingMovies} />
+        <Carousel movies={nowPlayingMovies} onCardClick={() => handleCardClick('Now Playing')} />
       </section>
       <section className="top-rated-movies">
         <h2 className="category">Top Rated</h2>
-        <Carousel movies={topRatedMovies} />
+        <Carousel movies={topRatedMovies} onCardClick={() => handleCardClick('Top Rated')} />
       </section>
     </main>
   );

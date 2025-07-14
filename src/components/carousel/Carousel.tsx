@@ -1,10 +1,10 @@
 import React from 'react';
-import { CarouselProps } from '../../types/movies';
+import { CarouselProps, MoviesListResponse } from '../../types/movies';
 import Card from '../card/Card';
 import './carousel.scss';
 
-const Carousel: React.FC<CarouselProps> = (props) => {
-    const { movies } = props;
+
+const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick }) => {
     const results = movies.results || [];
   if (!results || results.length === 0) {
     return <div className="carousel-container">No movies available</div>;
@@ -16,13 +16,18 @@ const Carousel: React.FC<CarouselProps> = (props) => {
         {results
           .filter((movie: { id: React.Key | null | undefined }) => typeof movie.id === 'number')
           .map((movie: { id: number; poster_path: any; title: string;}) => (
-            <Card
-                key={movie.id}
+            <div
+              key={movie.id}
+              className="carousel-card"
+              onClick={onCardClick}
+            >
+              <Card
                 id={movie.id}
                 poster_path={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
                 isFavorite={false}
                 title={movie.title}
-            />
+              />
+            </div>
           ))}
       </div>
     </div>

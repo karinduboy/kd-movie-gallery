@@ -1,6 +1,7 @@
 
 export interface CarouselProps {
   movies: MoviesListResponse;
+  onCardClick?: () => void;
 }
 
 
