@@ -3,7 +3,7 @@ import Carousel from '../../components/carousel/Carousel';
 import { fetchMoviesList } from '../../utils/tmdbApi';
 import './home.scss';
 import { MoviesListResponse } from '../../types/movies';
-import { MoviesListType } from '../../types/configuration';
+import { CategoryType, MoviesListType } from '../../types/configuration';
 import { useCategory } from '../../context/CategoryContext';
 
 const initialMovieList = {
@@ -67,7 +67,7 @@ const Home: React.FC = () => {
     fetchTrendingMovies();
   }, [trendingPeriod]);
 
-  const handleCardClick = (category: string) => {
+  const handleCardClick = (category: CategoryType | null) => {
     setSelectedCategory(category);
   };
 
@@ -83,19 +83,20 @@ const Home: React.FC = () => {
       </p>
       <section className="trending-movies">
         <h2 className="category">Trending Movies</h2>
-        <div className="trending-selector">
-          <button
-            className={trendingPeriod === 'trending_day' ? 'active' : ''}
-            onClick={() => setTrendingPeriod('trending_day')}
-          >
-            Day
-          </button>
-          <button
-            className={trendingPeriod === 'trending_week' ? 'active' : ''}
-            onClick={() => setTrendingPeriod('trending_week')}
-          >
-            Week
-          </button>
+        <div className="trending-switch">
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={trendingPeriod === 'trending_week'}
+              onChange={() =>
+                setTrendingPeriod(trendingPeriod === 'trending_day' ? 'trending_week' : 'trending_day')
+              }
+            />
+            <span className="slider">
+              <span className={`option ${trendingPeriod === 'trending_day' ? 'active' : ''}`}>Day</span>
+              <span className={`option ${trendingPeriod === 'trending_week' ? 'active' : ''}`}>Week</span>
+            </span>
+          </label>
         </div>
         <Carousel movies={trendingMovies} onCardClick={() => handleCardClick('Trending')} />
       </section>

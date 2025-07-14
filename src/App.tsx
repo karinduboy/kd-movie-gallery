@@ -1,6 +1,7 @@
 import React from 'react';
 import { CategoryProvider } from './context/CategoryContext';
 import Header from './components/header/Header';
+import './App.scss';
 
 const App = ({ children }: { children?: React.ReactNode }) => {
   return (
@@ -8,7 +9,7 @@ const App = ({ children }: { children?: React.ReactNode }) => {
       <Header />
       <main>{children}</main>
       <footer className="footer">
-        <p>&copy; 2023 Movie App</p>
+        <p>&copy; 2025 KD Movie DB - Development Project</p>
       </footer>
     </CategoryProvider>
   );

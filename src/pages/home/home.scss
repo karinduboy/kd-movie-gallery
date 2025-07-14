@@ -1,23 +1,96 @@
-.trending-selector {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+.main-content {
+  background: linear-gradient(#191919, #34373a); // Match the header background
+  color: white; // Ensure text is readable on the dark background
+  padding: 20px;
+  min-height: 100vh;
 
-  button {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  h1.main-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #ffffff; // White text for the title
+  }
 
-    &.active {
-      background-color: #007bff;
-      color: white;
-      border-color: #007bff;
+  p.main-description {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: rgba(255, 255, 255, 0.8); // Slightly transparent white for the description
+  }
+
+  .category {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #ffffff; // White text for section titles
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); // Add subtle shadow for better readability
+  }
+
+  .trending-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 120px;
+      height: 30px;
+
+      input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .slider .option.active {
+          background-color: #dddddd; // Highlight color for active option
+          color: black;
+        }
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #444; // Darker background for the switch
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        // padding: 0 5px;
+
+        .option {
+          flex: 1;
+          text-align: center;
+          font-size: 14px;
+          font-weight: bold;
+          color: rgba(255, 255, 255, 0.7); // Slightly transparent white for inactive options
+          border-radius: 30px;
+          padding: 5px 0;
+          transition: background-color 0.3s ease, color 0.3s ease;
+
+          &.active {
+            background-color: #dddddd; // Highlight color for active option
+            color: black;
+          }
+        }
+      }
     }
+  }
 
-    &:hover {
-      background-color: #e0e0e0;
+  section {
+    margin-bottom: 40px;
+
+    .carousel {
+      background: rgba(0, 0, 0, 0.5); // Semi-transparent background for carousels
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); // Subtle shadow for depth
     }
   }
 }

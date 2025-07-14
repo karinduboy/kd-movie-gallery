@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useWishlist } from '../../context/WishlistContext';
 import Modal from '../modal/Modal';
 
@@ -21,7 +21,9 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="logo">
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
       <div className="wishlist-container" onClick={() => setIsModalOpen(true)}>
         <WishlistLogo className="wishlist-icon" />
