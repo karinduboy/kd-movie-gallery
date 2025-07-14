@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { MovieInformation } from '../types/movies';
-
-type WhishListMovie = Pick<MovieInformation, 'id' | 'title' | 'poster_path'>;
+import { WishListMovie } from '../types/movies';
 
 interface WishlistContextProps {
-  wishlist: WhishListMovie[];
-  addToWishlist: (movie: WhishListMovie) => void;
+  wishlist: WishListMovie[];
+  addToWishlist: (movie: WishListMovie) => void;
   removeFromWishlist: (movieId: number) => void;
 }
 
@@ -14,7 +12,7 @@ interface WishlistContextProps {
 const WishlistContext = createContext<WishlistContextProps | undefined>(undefined);
 
 export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [wishlist, setWishlist] = useState<WhishListMovie[]>([]);
+  const [wishlist, setWishlist] = useState<WishListMovie[]>([]);
 
   // Load wishlist from cookies on initial render
   useEffect(() => {
@@ -29,7 +27,7 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     Cookies.set('wishlist', JSON.stringify(wishlist), { expires: 7 }); // Expires in 7 days
   }, [wishlist]);
 
-  const addToWishlist = (movie: WhishListMovie) => {
+  const addToWishlist = (movie: WishListMovie) => {
     if (!wishlist.find((item) => item.id === movie.id)) {
       setWishlist([...wishlist, movie]);
     }

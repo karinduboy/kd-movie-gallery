@@ -1,46 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from '../../components/carousel/Carousel';
-import { MoviesListResponse } from '../../types/movies';
+import { fetchMoviesList } from '../../utils/tmdbApi';
 import './home.scss';
+import { MoviesListResponse } from '../../types/movies';
+import { MoviesListType } from '../../types/configuration';
+
+const initialMovieList = {
+  results: [],
+  page: 1,
+  total_pages: 0,
+  total_results: 0,
+};
 
 const Home: React.FC = () => {
-    const [loading, setLoading] = useState(true);
-  const [popularMovies, setPopularMovies] = useState<MoviesListResponse[]>([]);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState<MoviesListResponse[]>([]);
-  const [topRatedMovies, setTopRatedMovies] = useState<MoviesListResponse[]>([]);
-
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY; // Retrieve API key from .env
-  console.log('TMDB API Key:', apiKey); // Log the API key for debugging purposes
-  const baseUrl = 'https://api.themoviedb.org/3';
-
-  const fetchMovies = async (endpoint: string, setter: React.Dispatch<React.SetStateAction<MoviesListResponse[]>>) => {
-    try {
-        const fetchUrl = `${baseUrl}${endpoint}?api_key=${apiKey}&language=en-US`;
-        console.log(`Fetching movies from: ${fetchUrl}`);
-      // Fetch movies from the TMDB API
-      // The endpoint can be '/movie/popular', '/movie/now_playing', or '/movie/top_rated'
-      // The setter function will update the state with the fetched movies
-      const response = await fetch(fetchUrl);
-      const data = await response.json();
-      setter(data);
-    } catch (error) {
-      console.error('Error fetching movies:', error);
-    }
-  };
+  const [loading, setLoading] = useState(true);
+  const [trendingPeriod, setTrendingPeriod] = useState<'trending_day' | 'trending_week'>('trending_day');
+  const [popularMovies,setPopularMovies] = useState<MoviesListResponse>(initialMovieList);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState<MoviesListResponse>(initialMovieList);
+  const [topRatedMovies, setTopRatedMovies] = useState<MoviesListResponse>(initialMovieList);
+  const [trendingMovies, setTrendingMovies] = useState<MoviesListResponse>(initialMovieList);
 
   useEffect(() => {
     const fetchAllMovies = async () => {
-      setLoading(true);
-      await Promise.all([
-        fetchMovies('/movie/popular', setPopularMovies),
-        fetchMovies('/movie/now_playing', setNowPlayingMovies),
-        fetchMovies('/movie/top_rated', setTopRatedMovies),
-      ]);
-      setLoading(false);
+      try {
+        setLoading(true);
+
+        // Fetch all movie lists in parallel
+        const [popular, nowPlaying, topRated, trending] = await Promise.all([
+          fetchMoviesList('popular'),
+          fetchMoviesList('now_playing'),
+          fetchMoviesList('top_rated'),
+          fetchMoviesList(trendingPeriod),
+        ]);
+        
+        // Set the state with the fetched movies
+        setPopularMovies(popular);
+        setNowPlayingMovies(nowPlaying);
+        setTopRatedMovies(topRated);
+        setTrendingMovies(trending);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchAllMovies();
   }, []);
+
+  // Fetch trending movies when the trendingPeriod changes
+  useEffect(() => {
+    const fetchTrendingMovies = async () => {
+      try {
+        setLoading(true);
+        const trending = await fetchMoviesList(trendingPeriod);
+        setTrendingMovies(trending);
+      } catch (error) {
+        console.error('Error fetching trending movies:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrendingMovies();
+  }, [trendingPeriod]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -48,6 +71,28 @@ const Home: React.FC = () => {
 
   return (
     <main className="main-content">
+      <h1 className="main-title">Welcome to MovieHub</h1>
+      <p className="main-description">
+        Discover the latest movies, watch trailers, and find your next favorite film.
+      </p>
+      <section className="trending-movies">
+        <h2 className="category">Trending Movies</h2>
+        <div className="trending-selector">
+          <button
+            className={trendingPeriod === 'trending_day' ? 'active' : ''}
+            onClick={() => setTrendingPeriod('trending_day')}
+          >
+            Day
+          </button>
+          <button
+            className={trendingPeriod === 'trending_week' ? 'active' : ''}
+            onClick={() => setTrendingPeriod('trending_week')}
+          >
+            Week
+          </button>
+        </div>
+        <Carousel movies={trendingMovies} />
+      </section>
       <section className="popular-movies">
         <h2 className="category">Popular Movies</h2>
         <Carousel movies={popularMovies} />

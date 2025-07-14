@@ -1,20 +1,3 @@
-export interface MovieDetails {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  isFavorite?: boolean; // Optional property to indicate if the movie is a favorite
-}
 
 export interface CarouselProps {
   movies: MoviesListResponse;
@@ -67,3 +50,9 @@ export type MoviesListResponse = {
   total_pages: number;
   total_results: number;
 }
+export type MovieCard = Pick<MovieInformation, 'id' | 'poster_path' | 'title' | 'isFavorite'>;
+
+export type WishListMovie = Pick<MovieInformation, 'id' | 'title' | 'poster_path'>;
+
+export type MovieDetails = Pick<MovieInformation,
+  'title' | 'overview' | 'release_date' | 'poster_path' | 'vote_average' | 'genres' | 'runtime'>

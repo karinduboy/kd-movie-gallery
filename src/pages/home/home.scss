@@ -1,0 +1,23 @@
+.trending-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+}

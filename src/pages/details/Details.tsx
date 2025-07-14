@@ -2,50 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWishlist } from '../../context/WishlistContext';
 import './Details.scss';
-import { MovieInformation } from '../../types/movies';
+import { MovieDetails } from '../../types/movies';
+import { fetchMovieDetails } from '../../utils/tmdbApi';
+import { transformMovieDetails } from '../../utils/dataTransform';
 
-interface MovieDetails {
-  title: string;
-  overview: string;
-  release_date: string;
-  poster_path: string;
-  vote_average: number;
-  genres: { id: number; name: string }[];
-  runtime: number;
-}
 
 const Details: React.FC = () => {
   const { id: movieId } = useParams<{ id: string }>();
   const { addToWishlist } = useWishlist();
-  const [movie, setMovie] = useState<MovieInformation | null>(null);
+  const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY; // Retrieve API key from .env
   
   useEffect(() => {
-      const fetchMovieDetails = async () => {
+      const retrieveMovieDetails = async () => {
           try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movieId ? parseInt(movieId) : ''}?api_key=${apiKey}&language=en-US`
-        );
-        const data = await response.json();
-        const newReleaseDate = new Date(data.release_date).toLocaleString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-          });
-        const newPosterPath = data.poster_path ? `https://image.tmdb.org/t/p/original${data.poster_path}` : '';
-        const movie = (
-            {...data, 
-            release_date: newReleaseDate, 
-            poster_path: newPosterPath, 
-            runtime: data.runtime || 0, 
-            genres: data.genres.map((genre: { id: number; name: string }) => ({ 
-                id: genre.id, name: genre.name 
-            })), 
-            vote_average: data.vote_average.toFixed(1),
-            isFavorite: false, // Default value, can be updated later
-        } as Partial<MovieInformation>) as MovieInformation;
+            const movieDetails = await fetchMovieDetails(movieId || '');
+            console.log('Movie details:', movieDetails);
+            const movie = transformMovieDetails(movieDetails);
+            console.log('Transformed movie data:', movie);
         setMovie(movie);
       } catch (error) {
         console.error('Error fetching movie details:', error);
@@ -54,7 +28,7 @@ const Details: React.FC = () => {
       }
     };
 
-    fetchMovieDetails();
+    retrieveMovieDetails();
   }, [movieId]);
 
   if (loading) {
