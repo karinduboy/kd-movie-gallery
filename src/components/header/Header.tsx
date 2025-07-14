@@ -4,6 +4,9 @@ import { useWishlist } from '../../context/WishlistContext';
 import Modal from '../modal/Modal';
 
 import './header.scss';
+import Logo from '../../assets/img/logo.svg?react';
+import WishlistLogo from '../../assets/img/wishlist.svg?react';
+import WishListAdded from '../../assets/img/wishlist-added-popular.svg?react';
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,8 +20,15 @@ const Header: React.FC = () => {
 
   return (
     <header className="header">
-      <div className="logo">Logo</div>
-      <button className="wishlin" onClick={() => setIsModalOpen(true)}>❤️</button>
+      <div className="logo">
+        <Logo />
+      </div>
+      <div className="wishlist-container" onClick={() => setIsModalOpen(true)}>
+        <WishlistLogo className="wishlist-icon" />
+        {wishlist.length > 0 && (
+          <div className="wishlist-count">{wishlist.length}</div>
+        )}
+      </div>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="wishlist-modal">
           <h2>Your Wishlist</h2>
