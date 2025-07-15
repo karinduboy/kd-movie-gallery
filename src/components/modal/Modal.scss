@@ -12,9 +12,9 @@
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
+  background: linear-gradient(black, #2c2c2c);
+  padding: 10px;
+  border-radius: 10px;
   width: 90%;
   max-width: 400px;
   position: relative;
@@ -22,45 +22,91 @@
 
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  svg{
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .wishlist-modal {
+  color: lightgray;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+
   h2 {
+    font-size: 1.5rem;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 
     li {
+      background: linear-gradient(rgba(44, 44, 44, 0.5), transparent);
+      border-radius: 10px;
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       img {
         width: 50px;
         height: 75px;
-        margin-right: 10px;
+        border-radius: 5px;
+        object-fit: cover;
+        margin-right: 15px;
       }
 
-      h3 {
-        margin: 0;
-      }
+      .movie-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-      button {
-        margin-left: auto;
-        background: red;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
+        h3 {
+          font-size: 1rem;
+          font-weight: bold;
+          margin: 0;
+          color: white;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          max-width: 200px;
+        }
+
+        .remove-button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 5px;
+
+          svg {
+            width: 20px;
+            height: 20px;
+            fill: red;
+            transition: transform 0.2s ease;
+
+            &:hover {
+              transform: scale(1.2);
+            }
+          }
+        }
       }
     }
   }

@@ -1,25 +1,33 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWishlist } from '../../context/WishlistContext';
-import { MovieInformation } from '../../types/movies';
+import { useCategory } from '../../context/CategoryContext';
+import { MovieCard } from '../../types/movies';
+import { Category } from '../../types/configuration';
 
 import WishlistLogo from '../../assets/img/wishlist.svg?react';
-import WishListFilledLogo from '../../assets/img/wishlist-added-popular.svg?react';
+import WishlistAddedLogo from '../../assets/img/wishlist-added.svg?react';
 
 import './Card.scss';
 
-type CardProps = Pick<MovieInformation, 'id' | 'poster_path' | 'title' | 'isFavorite'>;
+const categoryColors:Record<Category, string> = {
+  [Category.TRENDING]: 'red',
+  [Category.POPULAR]: 'gold',
+  [Category.TOP_RATED]: 'green',
+  [Category.NOW_PLAYING]: 'blue',
+};
 
-const Card: React.FC<CardProps> = (props) => {
-    const { id, poster_path, title, isFavorite } = props;
+const Card: React.FC<MovieCard> = (props) => {
+  const { id, poster_path, title, category = Category.POPULAR} = props;
   const navigate = useNavigate();
+  const { setSelectedCategory } = useCategory();
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
-  const isFavoriteMovie = wishlist.some((movie) => movie.id === id);
+  const isFavorite = wishlist.some((movie) => movie.id === id);
 
-  const handleWisslistToggle = (e: React.MouseEvent) => {
+  const handleWishlistToggle = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent the click from propagating to the card click handler
-    if (isFavoriteMovie) {
+    if (isFavorite) {
       removeFromWishlist(id);
     } else {
       addToWishlist({ id, poster_path, title });
@@ -27,6 +35,7 @@ const Card: React.FC<CardProps> = (props) => {
   };
 
   const handleCardClick = () => {
+    setSelectedCategory(category);
     navigate(`/details/${id}`);
   };
 
@@ -34,8 +43,12 @@ const Card: React.FC<CardProps> = (props) => {
     <div className="card-container" data-movie-id={id} onClick={handleCardClick}>
       <div className="image-container">
         <img src={poster_path} alt={title} className="movie-image" />
-        <div className="wishlist-icon" onClick={handleWisslistToggle}>
-          {isFavoriteMovie ? <WishListFilledLogo /> : <WishlistLogo />}
+        <div className="wishlist-icon" onClick={handleWishlistToggle}>
+        {isFavorite ? (
+            <WishlistAddedLogo style={{ fill: categoryColors[category]}} />
+          ) : (
+            <WishlistLogo style={{ fill: categoryColors[category]}} />
+          )}
         </div>
       </div>
     </div>

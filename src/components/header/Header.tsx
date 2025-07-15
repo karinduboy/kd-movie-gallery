@@ -6,7 +6,8 @@ import Modal from '../modal/Modal';
 import './header.scss';
 import Logo from '../../assets/img/logo.svg?react';
 import WishlistLogo from '../../assets/img/wishlist.svg?react';
-import WishListAdded from '../../assets/img/wishlist-added-popular.svg?react';
+import WishListAdded from '../../assets/img/wishlist-added.svg?react';
+import BinIcon from '../../assets/img/bin.svg?react';
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,10 +38,15 @@ const Header: React.FC = () => {
           <ul>
             {wishlist.map((movie) => (
               <li key={movie.id}>
-                <img src={movie.poster_path} alt={movie.poster_path} />
-                <div>
+                <img src={movie.poster_path} alt={movie.title} />
+                <div className="movie-info">
                   <h3>{movie.title}</h3>
-                  <button onClick={() => removeFromWishlist(movie.id)}>Remove</button>
+                  <div
+                    className="remove-button"
+                    onClick={() => removeFromWishlist(movie.id)}
+                  >
+                    <BinIcon />
+                  </div>
                 </div>
               </li>
             ))}

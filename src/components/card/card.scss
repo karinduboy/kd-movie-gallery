@@ -46,18 +46,16 @@
       svg {
         width: 20px;
         height: 20px;
-        fill: rgba(255, 255, 255, 0.75); // Default color for the icon
         transition: fill 0.5s ease;
       }
 
       &:hover {
         transform: scale(1.1);
-        background: rgba(255, 255, 255, 0.8); // Highlight background on hover
+        background: rgba(255, 255, 255, 0.8);
         transition: transform 0.5 s ease, background 0.65s ease;
         cursor: pointer;
 
         svg {
-          fill: black; // Highlight color for the icon on hover
           transition: fill 0.5s ease;
         }
       }

@@ -1,8 +1,11 @@
+import { Category } from "configuration";
 
+// Type definitions for movie-related data structures and components
 export interface CarouselProps {
   movies: MoviesListResponse;
   onCardClick?: () => void;
   loading?: boolean;
+  category: string;
 }
 
 
@@ -52,9 +55,12 @@ export type MoviesListResponse = {
   total_pages: number;
   total_results: number;
 }
-export type MovieCard = Pick<MovieInformation, 'id' | 'poster_path' | 'title' | 'isFavorite'>;
+export type MovieCard = Pick<MovieInformation, 'id' | 'poster_path' | 'title' | 'isFavorite'> & {
+  category: Category;
+};
 
 export type WishListMovie = Pick<MovieInformation, 'id' | 'title' | 'poster_path'>;
 
 export type MovieDetails = Pick<MovieInformation,
   'title' | 'overview' | 'release_date' | 'poster_path' | 'vote_average' | 'genres' | 'runtime'>
+

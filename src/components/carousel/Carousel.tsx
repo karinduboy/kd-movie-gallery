@@ -1,10 +1,11 @@
 import React from 'react';
 import { CarouselProps, MoviesListResponse } from '../../types/movies';
+import { Category } from '../../types/configuration';
 import Card from '../card/Card';
 import './carousel.scss';
 
 
-const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading }) => {
+const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading, category = Category.POPULAR }) => {
   const results = movies.results || [];
   
   if (loading) {
@@ -38,6 +39,7 @@ const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading }) => 
                 poster_path={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
                 isFavorite={false}
                 title={movie.title}
+                category={category}
               />
             </div>
           ))}

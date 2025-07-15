@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import CloseIcon from '../../assets/img/close.svg?react';
+
 import './Modal.scss';
 
 interface ModalProps {
@@ -14,9 +17,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return ReactDOM.createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>
-          &times;
-        </button>
+        <div className="modal-close" onClick={onClose}>
+          <CloseIcon />
+        </div>
         {children}
       </div>
     </div>,

@@ -3,7 +3,7 @@ import Carousel from '../../components/carousel/Carousel';
 import { fetchMoviesList } from '../../utils/tmdbApi';
 import './home.scss';
 import { MoviesListResponse } from '../../types/movies';
-import { CategoryType, MoviesListType } from '../../types/configuration';
+import { Category, MoviesList, TrendingPeriod } from '../../types/configuration';
 import { useCategory } from '../../context/CategoryContext';
 
 const initialMovieList = {
@@ -14,10 +14,10 @@ const initialMovieList = {
 };
 
 const Home: React.FC = () => {
-  const { setSelectedCategory } = useCategory();
+  // const { setSelectedCategory } = useCategory();
   const [loading, setLoading] = useState(true);
   const [trendingLoading, setTrendingLoading] = useState(true);
-  const [trendingPeriod, setTrendingPeriod] = useState<'trending_day' | 'trending_week'>('trending_day');
+  const [trendingPeriod, setTrendingPeriod] = useState<TrendingPeriod>(TrendingPeriod.Day);
   const [popularMovies,setPopularMovies] = useState<MoviesListResponse>(initialMovieList);
   const [nowPlayingMovies, setNowPlayingMovies] = useState<MoviesListResponse>(initialMovieList);
   const [topRatedMovies, setTopRatedMovies] = useState<MoviesListResponse>(initialMovieList);
@@ -30,10 +30,10 @@ const Home: React.FC = () => {
 
         // Fetch all movie lists in parallel
         const [popular, nowPlaying, topRated, trending] = await Promise.all([
-          fetchMoviesList('popular'),
-          fetchMoviesList('now_playing'),
-          fetchMoviesList('top_rated'),
-          fetchMoviesList(trendingPeriod),
+          fetchMoviesList(MoviesList.Popular),
+          fetchMoviesList(MoviesList.NowPlaying),
+          fetchMoviesList(MoviesList.TopRated),
+          fetchMoviesList(MoviesList[trendingPeriod]),
         ]);
         
         // Set the state with the fetched movies
@@ -56,7 +56,7 @@ const Home: React.FC = () => {
     const fetchTrendingMovies = async () => {
       try {
         setTrendingLoading(true);
-        const trending = await fetchMoviesList(trendingPeriod);
+        const trending = await fetchMoviesList(MoviesList[trendingPeriod]);
         setTrendingMovies(trending);
       } catch (error) {
         console.error('Error fetching trending movies:', error);
@@ -68,9 +68,9 @@ const Home: React.FC = () => {
     fetchTrendingMovies();
   }, [trendingPeriod]);
 
-  const handleCardClick = (category: CategoryType | null) => {
-    setSelectedCategory(category);
-  }; 
+  // const handleCardClick = (category: Category) => {
+  //   setSelectedCategory(category);
+  // }; 
 
   return (
     <main className="main-content">
@@ -84,30 +84,30 @@ const Home: React.FC = () => {
           <label className="switch">
             <input
               type="checkbox"
-              checked={trendingPeriod === 'trending_week'}
+              checked={trendingPeriod === TrendingPeriod.Week}
               onChange={() =>
-                setTrendingPeriod(trendingPeriod === 'trending_day' ? 'trending_week' : 'trending_day')
+                setTrendingPeriod(trendingPeriod === TrendingPeriod.Day ? TrendingPeriod.Week : TrendingPeriod.Day)
               }
             />
             <span className="slider">
-              <span className={`option ${trendingPeriod === 'trending_day' ? 'active' : ''}`}>Day</span>
-              <span className={`option ${trendingPeriod === 'trending_week' ? 'active' : ''}`}>Week</span>
+              <span className={`option ${trendingPeriod === TrendingPeriod.Day ? 'active' : ''}`}>Day</span>
+              <span className={`option ${trendingPeriod === TrendingPeriod.Week ? 'active' : ''}`}>Week</span>
             </span>
           </label>
         </div>
-        <Carousel movies={trendingMovies} onCardClick={() => handleCardClick('Trending')} loading={loading || trendingLoading} />
+        <Carousel movies={trendingMovies} loading={loading || trendingLoading} category={Category.TRENDING}/>
       </section>
       <section className="popular-movies">
         <h2 className="category">Popular Movies</h2>
-        <Carousel movies={popularMovies} onCardClick={() => handleCardClick('Popular')} loading={loading} />
+        <Carousel movies={popularMovies} loading={loading} category={Category.POPULAR}/>
       </section>
       <section className="now-playing-movies">
         <h2 className="category">Now Playing</h2>
-        <Carousel movies={nowPlayingMovies} onCardClick={() => handleCardClick('Now Playing')} loading={loading} />
+        <Carousel movies={nowPlayingMovies} loading={loading} category={Category.NOW_PLAYING}/>
       </section>
       <section className="top-rated-movies">
         <h2 className="category">Top Rated</h2>
-        <Carousel movies={topRatedMovies} onCardClick={() => handleCardClick('Top Rated')} loading={loading} />
+        <Carousel movies={topRatedMovies} loading={loading} category={Category.TOP_RATED}/>
       </section>
     </main>
   );

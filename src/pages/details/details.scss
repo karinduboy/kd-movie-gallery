@@ -5,127 +5,106 @@
     padding: 20px;
     min-height: 100vh;
     color: white; // Default text color for readability
-    background: linear-gradient(#191919, #34373a); 
+    background: linear-gradient(#191919, #34373a);
 
+    // Category-specific styles
     &.trending {
-        background: #4a0000; // Red background for trending
+        background: linear-gradient(#3c0505, rgb(33, 32, 32));
+        font-family: 'Winky Rough', cursive; // Font for trending
         .wishlist-icon svg {
-            fill: red; // Red icon for trending
+            fill: red;
         }
     }
 
     &.popular {
-        background: #4a3a00; // Gold background for popular
+        background: #4a3a00;
+        font-family: 'Limelight', cursive; // Font for popular
         .wishlist-icon svg {
-            fill: gold; // Gold icon for popular
+            fill: #e18d0c;
         }
     }
 
     &.toprated {
-        background: #003d00; // Green background for top rated
+        background: #003d00;
+        font-family: 'Roboto Condensed', sans-serif; // Font for top-rated
         .wishlist-icon svg {
-            fill: green; // Green icon for top rated
+            fill: #35af01;
         }
     }
 
     &.nowplaying {
-        background: #002a4a; // Blue background for now playing
+        background: #043740;
+        font-family: 'Bangers', cursive; // Font for now-playing
         .wishlist-icon svg {
-            fill: blue; // Blue icon for now playing
+            fill: #23bcd6;
         }
     }
 
     .details-content {
         display: flex;
-        width:100%;
+        width: 100%;
         max-width: 1600px;
+        max-height: 600px;
         margin: 0 auto;
-        overflow: hidden;
+        overflow: visible;
         justify-content: space-between;
         gap: 20px;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        background-color: #f0f0f0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        background: linear-gradient(transparent, black);
+        box-shadow: 6px 12px 12px rgba(0, 0, 0, 0.704);
         transition: box-shadow 0.3s ease;
-        &:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
 
         .movie-poster {
+						position: relative; // For positioning the wishlist icon
             width: 450px;
             height: 600px;
+            aspect-ratio: 3 / 4; // Maintain aspect ratio
+            border-radius: 10px;
+            flex-shrink: 0;
             margin-bottom: 20px;
+						.wishlist-icon {
+							position: absolute;
+							z-index: 2;
+							top: 0px;
+							right: 0px;
+							width: 60px;
+							height: 60px;
+							cursor: pointer;
+							background: rgba(0, 0, 0, 0.35); // Semi-transparent background for better visibility
+							border-radius: 10px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							transition: background 0.3s ease;
+
+							svg {
+								width: 40px;
+								height: 40px;
+								transition: fill 0.3s ease;
+							}
+
+							&:hover {
+								background: rgba(255, 255, 255, 0.2); // Highlight background on hover
+							}
+					}
 
             img {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            }
-
-            &::before {
-                content: "Image not available"; // Fallback text
-                display: none;
-                font-size: 16px;
-                color: #888;
-            }
-
-            // Show fallback text if no image is present
-            img[src=""] {
-                display: none;
-            }
-
-            img[src=""] + &::before {
-                display: block;
+							width: 100%;
+							height: 100%;
+							border-radius: 10px;
+							box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             }
         }
 
         .movie-info {
+            position: relative; // For positioning the wishlist icon
             text-align: center;
             max-width: 600px;
-
-            .movie-info {
-                display: flex;
-                flex-direction: column;
-
-                .movie-director, movie-actors {
-                    margin-bottom: 10px;
-                    font-size: 16px;
-                    color: #333;
-                    
-                    span {
-                        font-weight: bold;
-                        color: #555;
-                    }
-                }
-
-                h2 {
-                    font-size: 24px;
-                    margin-bottom: 10px;
-                    color: #222;
-                    font-weight: bold;
-                }
-
-                h3 {
-                    font-size: 20px;
-                    margin-bottom: 10px;
-                    color: #444;
-                    font-weight: normal;
-                    margin-top: 0;
-                }
-                .favorite-icon {
-                    font-size: 24px;
-                    color: red;
-                    cursor: pointer;
-                    margin-top: 10px;
-
-                    &:hover {
-                        color: darkred;
-                    }
-                }
-            }
-
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+						padding: 20px;
+            
             .movie-title {
                 font-size: 2rem;
                 font-weight: bold;
@@ -133,39 +112,51 @@
                 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             }
 
-            .movie-overview {
-                font-size: 1.2rem;
+            .movie-release-runtime {
+                display: flex;
+                justify-content: space-between;
                 margin-bottom: 20px;
-                line-height: 1.5;
-                color: rgba(255, 255, 255, 0.8); // Slightly transparent white for readability
+
+                .release-date,
+                .runtime {
+                    font-size: 1rem;
+                    color: rgba(255, 255, 255, 0.6); // Subtle text for release date and runtime
+                }
             }
 
-            .movie-release-date {
-                font-size: 1rem;
-                margin-bottom: 20px;
-                color: rgba(255, 255, 255, 0.6); // Subtle text for release date
-            }
-
-            .wishlist-icon {
-                width: 50px;
-                height: 50px;
-                cursor: pointer;
-                background: rgba(0, 0, 0, 0.6); // Semi-transparent background for better visibility
-                border-radius: 50%;
+            .movie-rating {
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                transition: background 0.3s ease;
+                gap: 10px;
+                margin-bottom: 20px;
 
-                svg {
-                    width: 30px;
-                    height: 30px;
-                    transition: fill 0.3s ease;
+                .rating-label {
+                    font-size: 1rem;
+                    font-weight: bold;
                 }
 
-                &:hover {
-                    background: rgba(255, 255, 255, 0.2); // Highlight background on hover
+                .star-rating {
+                    display: flex;
+                    gap: 5px;
+
+                    .star {
+                        width: 24px;
+                        height: 24px;
+                        fill: #ccc; // Default color for empty stars
+                        transition: fill 0.3s ease;
+
+                        &.filled {
+                            fill: #ffd700; // Gold color for filled stars
+                        }
+                    }
                 }
+            }
+
+            .movie-overview {
+                font-size: 1.2rem;
+                margin-top: auto; // Push the overview to the bottom
+                line-height: 1.5;
+                color: rgba(255, 255, 255, 0.8); // Slightly transparent white for readability
             }
         }
     }

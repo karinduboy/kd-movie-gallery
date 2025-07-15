@@ -1,4 +1,4 @@
-import { MoviesListType } from "../types/configuration";
+import { MoviesList } from "../types/configuration";
 
 const TMDB_API_BASE_URL = 'https://api.themoviedb.org/3';
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY; // Securely load the API key from .env
@@ -16,7 +16,7 @@ const getQueryUrl = (listType: 'popular' | 'now_playing' | 'top_rated' | 'trendi
 };
 
 // Generic function to fetch movie lists
-export const fetchMoviesList = async (listType: MoviesListType) => {
+export const fetchMoviesList = async (listType: MoviesList) => {
     const queryUrl = getQueryUrl(listType);
   const response = await fetch(`${TMDB_API_BASE_URL}${queryUrl}?api_key=${TMDB_API_KEY}&language=en-US`);
   if (!response.ok) {

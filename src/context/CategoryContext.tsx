@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useState } from 'react';
-import { CategoryType } from '../types/configuration';
+import { Category } from '../types/configuration';
 
 interface CategoryContextProps {
-  selectedCategory: CategoryType | null;
-  setSelectedCategory: (category: CategoryType | null) => void;
+  selectedCategory: Category | null;
+  setSelectedCategory: (category: Category | null) => void;
 }
 
 const CategoryContext = createContext<CategoryContextProps | undefined>(undefined);
 
 export const CategoryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
   return (
     <CategoryContext.Provider value={{ selectedCategory, setSelectedCategory }}>
