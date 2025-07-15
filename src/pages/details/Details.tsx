@@ -7,15 +7,30 @@ import { fetchMovieDetails } from '../../utils/tmdbApi';
 import { transformMovieDetails } from '../../utils/dataTransform';
 import { useCategory } from '../../context/CategoryContext';
 
+import WishlistLogo from '../../assets/img/wishlist.svg?react';
+import WishlistFilledLogo from '../../assets/img/wishlist-added-popular.svg?react';
+
 
 const Details: React.FC = () => {
   const { id: movieId } = useParams<{ id: string }>();
-  const { addToWishlist } = useWishlist();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const {selectedCategory} = useCategory();
 
+  const isFavorite = wishlist.some((item) => item.id === Number(movieId));
 
+  const handleWishListClick = () => {
+    if (isFavorite) {
+      removeFromWishlist(Number(movieId));
+    } else {
+      addToWishlist({ 
+        id: Number(movieId), 
+        title: movie?.title || '', 
+        poster_path: movie?.poster_path || '' 
+      });
+    }
+  };
   
   useEffect(() => {
       const retrieveMovieDetails = async () => {
@@ -44,9 +59,9 @@ const Details: React.FC = () => {
   }
 
   return (
-    <div className="details-container">
+    <div className={`details-container ${selectedCategory && selectedCategory.toLowerCase().replace(/\s+/g, '')}`} >
       <div className="details-content">
-        <div className="image-placeholder">
+        <div className="movie-poster">
           <img
             src={movie.poster_path}
             alt={movie.title}
@@ -54,12 +69,9 @@ const Details: React.FC = () => {
           />
         </div>
         <div className="movie-info">
-            <button 
-            className={`wishlist-button${selectedCategory ? `--${selectedCategory.toLowerCase().replace(/\s+/g, '-')}` : ''}`} 
-            onClick={() => addToWishlist({id: Number(movieId) , title: movie.title, poster_path: movie.poster_path})}
-            >
-            Add to Wishlist
-            </button>
+        <div className="wishlist-icon" onClick={handleWishListClick}>
+          {isFavorite ? <WishlistFilledLogo /> : <WishlistLogo />}
+        </div>
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
           <p>

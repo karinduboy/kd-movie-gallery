@@ -2,12 +2,13 @@
 export interface CarouselProps {
   movies: MoviesListResponse;
   onCardClick?: () => void;
+  loading?: boolean;
 }
 
 
 export type MovieInformation = {
-  key?: string; //opcional property for React key
-  isFavorite?: boolean; // Optional property to indicate if the movie is a favorite
+  key?: string;
+  isFavorite?: boolean;
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection?: {

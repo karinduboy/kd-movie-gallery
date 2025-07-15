@@ -4,8 +4,20 @@ import Card from '../card/Card';
 import './carousel.scss';
 
 
-const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick }) => {
-    const results = movies.results || [];
+const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading }) => {
+  const results = movies.results || [];
+  
+  if (loading) {
+    // Render skeleton loader while loading
+    return (
+      <div className="carousel-skeleton">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <div key={index} className="skeleton-card"></div>
+        ))}
+      </div>
+    );
+  }
+
   if (!results || results.length === 0) {
     return <div className="carousel-container">No movies available</div>;
   }

@@ -1,7 +1,39 @@
 .details-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     padding: 20px;
+    min-height: 100vh;
+    color: white; // Default text color for readability
+    background: linear-gradient(#191919, #34373a); 
+
+    &.trending {
+        background: #4a0000; // Red background for trending
+        .wishlist-icon svg {
+            fill: red; // Red icon for trending
+        }
+    }
+
+    &.popular {
+        background: #4a3a00; // Gold background for popular
+        .wishlist-icon svg {
+            fill: gold; // Gold icon for popular
+        }
+    }
+
+    &.toprated {
+        background: #003d00; // Green background for top rated
+        .wishlist-icon svg {
+            fill: green; // Green icon for top rated
+        }
+    }
+
+    &.nowplaying {
+        background: #002a4a; // Blue background for now playing
+        .wishlist-icon svg {
+            fill: blue; // Blue icon for now playing
+        }
+    }
 
     .details-content {
         display: flex;
@@ -20,21 +52,16 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .image-placeholder {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 60vw;
-            background-color: #e0e0e0; // Light gray background for placeholder
-            border: 1px dashed #ccc; // Dashed border to indicate placeholder
-            border-radius: 5px;
-            overflow: hidden;
+        .movie-poster {
+            width: 450px;
+            height: 600px;
+            margin-bottom: 20px;
 
             img {
-                display: block;
-                max-width: 100%;
-                max-height: 100%;
-                object-fit: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             }
 
             &::before {
@@ -55,26 +82,8 @@
         }
 
         .movie-info {
-            display: flex;
-            flex-direction: column;
-            width: 40%;
-            justify-content: flex-start;
-            background-color: #fff;
-
-            .wishlist-button {
-                align-self: flex-end;
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                margin-bottom: 20px;
-
-                &:hover {
-                    background-color: #0056b3;
-                }
-            }
+            text-align: center;
+            max-width: 600px;
 
             .movie-info {
                 display: flex;
@@ -114,6 +123,48 @@
                     &:hover {
                         color: darkred;
                     }
+                }
+            }
+
+            .movie-title {
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .movie-overview {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+                line-height: 1.5;
+                color: rgba(255, 255, 255, 0.8); // Slightly transparent white for readability
+            }
+
+            .movie-release-date {
+                font-size: 1rem;
+                margin-bottom: 20px;
+                color: rgba(255, 255, 255, 0.6); // Subtle text for release date
+            }
+
+            .wishlist-icon {
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                background: rgba(0, 0, 0, 0.6); // Semi-transparent background for better visibility
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.3s ease;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                    transition: fill 0.3s ease;
+                }
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.2); // Highlight background on hover
                 }
             }
         }

@@ -16,6 +16,7 @@ const initialMovieList = {
 const Home: React.FC = () => {
   const { setSelectedCategory } = useCategory();
   const [loading, setLoading] = useState(true);
+  const [trendingLoading, setTrendingLoading] = useState(true);
   const [trendingPeriod, setTrendingPeriod] = useState<'trending_day' | 'trending_week'>('trending_day');
   const [popularMovies,setPopularMovies] = useState<MoviesListResponse>(initialMovieList);
   const [nowPlayingMovies, setNowPlayingMovies] = useState<MoviesListResponse>(initialMovieList);
@@ -54,13 +55,13 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
-        setLoading(true);
+        setTrendingLoading(true);
         const trending = await fetchMoviesList(trendingPeriod);
         setTrendingMovies(trending);
       } catch (error) {
         console.error('Error fetching trending movies:', error);
       } finally {
-        setLoading(false);
+        setTrendingLoading(false);
       }
     };
 
@@ -69,17 +70,13 @@ const Home: React.FC = () => {
 
   const handleCardClick = (category: CategoryType | null) => {
     setSelectedCategory(category);
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  }; 
 
   return (
     <main className="main-content">
-      <h1 className="main-title">Welcome to MovieHub</h1>
+      <h1 className="main-title">Welcome to KD Movie Gallery</h1>
       <p className="main-description">
-        Discover the latest movies, watch trailers, and find your next favorite film.
+        Discover the movies that are rocking the screens.
       </p>
       <section className="trending-movies">
         <h2 className="category">Trending Movies</h2>
@@ -98,19 +95,19 @@ const Home: React.FC = () => {
             </span>
           </label>
         </div>
-        <Carousel movies={trendingMovies} onCardClick={() => handleCardClick('Trending')} />
+        <Carousel movies={trendingMovies} onCardClick={() => handleCardClick('Trending')} loading={loading || trendingLoading} />
       </section>
       <section className="popular-movies">
         <h2 className="category">Popular Movies</h2>
-        <Carousel movies={popularMovies} onCardClick={() => handleCardClick('Popular')} />
+        <Carousel movies={popularMovies} onCardClick={() => handleCardClick('Popular')} loading={loading} />
       </section>
       <section className="now-playing-movies">
         <h2 className="category">Now Playing</h2>
-        <Carousel movies={nowPlayingMovies} onCardClick={() => handleCardClick('Now Playing')} />
+        <Carousel movies={nowPlayingMovies} onCardClick={() => handleCardClick('Now Playing')} loading={loading} />
       </section>
       <section className="top-rated-movies">
         <h2 className="category">Top Rated</h2>
-        <Carousel movies={topRatedMovies} onCardClick={() => handleCardClick('Top Rated')} />
+        <Carousel movies={topRatedMovies} onCardClick={() => handleCardClick('Top Rated')} loading={loading} />
       </section>
     </main>
   );
