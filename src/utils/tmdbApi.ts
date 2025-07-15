@@ -33,3 +33,13 @@ export const fetchMovieDetails = async (movieId: string) => {
   }
   return response.json();
 };
+
+// Fetch cast list for a movie by ID
+export const fetchMovieCast = async (movieId: string) => {
+  const response = await fetch(`${TMDB_API_BASE_URL}/movie/${movieId}/credits?api_key=${TMDB_API_KEY}&language=en-US`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch cast for movie ID: ${movieId}`);
+  }
+  const data = await response.json();
+  return data.cast; // Return only the cast array
+};

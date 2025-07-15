@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useWishlist } from "../../context/WishlistContext";
 import "./Details.scss";
-import { MovieDetails } from "../../types/movies";
-import { fetchMovieDetails } from "../../utils/tmdbApi";
+import { MovieDetails, Actor } from "../../types/movies";
+import { fetchMovieDetails, fetchMovieCast } from "../../utils/tmdbApi";
 import { transformMovieDetails } from "../../utils/dataTransform";
 import { useCategory } from "../../context/CategoryContext";
 
@@ -21,6 +21,7 @@ const Details: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const { selectedCategory } = useCategory();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [movieCast, setMovieCast] = useState<Actor[]>([]); // Assuming you will fetch and set movie cast later
 
   const checkMoviePreference = (id: number) =>
     wishlist.some((item) => item.id === Number(movieId));
@@ -61,10 +62,21 @@ const Details: React.FC = () => {
   useEffect(() => {
     const retrieveMovieDetails = async () => {
       try {
-        const movieDetails = await fetchMovieDetails(movieId || "");
-        console.log("Movie details:", movieDetails);
+        const [movieCastData, movieDetails] = await Promise.all([
+          fetchMovieCast(movieId || ""),
+          fetchMovieDetails(movieId || ""),
+        ]);
+        const castNames = movieCastData.map((actor:Actor) => ({
+          id: actor.id, 
+          name: actor.name, 
+          character: actor.character
+        }));
+        setMovieCast(castNames.slice(0, 10));
+        console.log("Fetched movie cast:", castNames);
+
         const movie = transformMovieDetails(movieDetails);
         console.log("Transformed movie data:", movie);
+        
         setMovie(movie);
         setIsFavorite(checkMoviePreference(Number(movieId)));
       } catch (error) {
@@ -111,19 +123,46 @@ const Details: React.FC = () => {
         </div>
         <div className="movie-info">
           <h1 className="movie-title">{movie.title}</h1>
-          <div className="movie-release-runtime">
-            <span className="release-date">
-              Release Date: {movie.release_date}
-            </span>
-            <span className="runtime">Runtime: {movie.runtime} minutes</span>
-          </div>
           <div className="movie-rating">
-            <span className="rating-label">Rating:</span>
+            <h3 className="rating-label">Rating:</h3>
             {renderStars(movie.vote_average)}
           </div>
-          <p className="movie-overview">{movie.overview}</p>
+          <div className="movie-release-runtime">
+            <h3 className="release-date">
+              Release Date: {movie.release_date}
+            </h3>
+            <h3 className="runtime">Runtime: {movie.runtime} minutes</h3>
+          </div>
+          <div className="movie-genres">
+            <h3 className="genres-label">Genres:</h3>
+            <ul className="genres-list">
+              {movie.genres.map((genre) => (
+                <li key={genre.id} className="genre-item">
+                  {genre.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="movie-overview">
+            <h3 className="overview-label">Overview:</h3>
+            {movie.overview}
+          </div>
         </div>
       </div>
+      <div className="movie-cast">
+        <ul className="cast-list">
+          {movieCast.length > 0 ? (
+            movieCast.map((actor) => (
+              <li key={actor.id} className="cast-item">
+                <span className="actor-name">{actor.name}</span>
+                <span className="actor-character"> "{actor.character}"</span>
+              </li>
+            ))
+          ) : (
+            <li className="cast-item">Cast information not available</li>
+          )}
+        </ul>
+        </div>
     </div>
   );
 };

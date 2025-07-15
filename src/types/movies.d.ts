@@ -64,3 +64,8 @@ export type WishListMovie = Pick<MovieInformation, 'id' | 'title' | 'poster_path
 export type MovieDetails = Pick<MovieInformation,
   'title' | 'overview' | 'release_date' | 'poster_path' | 'vote_average' | 'genres' | 'runtime'>
 
+export type Actor = {
+  id: number;
+  name: string;
+  character?: string;
+}
