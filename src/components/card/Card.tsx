@@ -12,9 +12,9 @@ import './Card.scss';
 
 const categoryColors:Record<Category, string> = {
   [Category.TRENDING]: 'red',
-  [Category.POPULAR]: 'gold',
-  [Category.TOP_RATED]: 'green',
-  [Category.NOW_PLAYING]: 'blue',
+  [Category.POPULAR]: '#e18d0c',
+  [Category.TOP_RATED]: '#35af01',
+  [Category.NOW_PLAYING]: '#23bcd6',
 };
 
 const Card: React.FC<MovieCard> = (props) => {
