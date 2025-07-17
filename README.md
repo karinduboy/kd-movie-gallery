@@ -94,11 +94,22 @@ The production-ready files will be in the dist/ folder.
 ---
 
 ### 🧪 Testing
-To run tests (if applicable), use:
+The testing was done using [Vitest](https://vitest.dev)
+
+To run tests, use:
 
 ```bash
 yarn test
 ```
+
+#### Testing Coverage
+It's donde through v8, to run it use:
+
+```bash
+yarn test:coverage
+```
+ and you'll get this report at the console
+![alt text](<Screenshot 2025-07-17 at 18.55.19.png>) 
 
 ---
 
@@ -134,7 +145,7 @@ yarn test
   - Wishlist Icon, to add/remove the movie to/from wishlist
   - Movie Info: Title, Rating, Release Date, Genres, Runtime & Overview
   - Cast List, as additional info
-  This page shows a different font, wishlist button color, and backgroun according the category selected at home.
+  This page shows a different font, wishlist button color, and background according the category where the user clicks on Card, stored at CategoryContext.
 
 ---
 
