@@ -6,7 +6,7 @@ import { fetchMovieDetails, fetchMovieCast } from '../utils/tmdbApi';
 import { transformMovieDetails } from '../utils/dataTransform';
 import { MockWishlistProvider, addToWishlistMock, removeFromWishlistMock } from './mocks/MockWishlistProvider';
 import { MockCategoryProvider, setSelectedCategoryMock } from './mocks/MockCategoryProvider';
-import { mock } from 'node:test';
+import { Category } from '../types/configuration';
 
 
 // Mock the API calls
@@ -187,7 +187,6 @@ describe('Details Component', () => {
     const wishlistIcon = screen.getByTestId('wishlist-icon-details');
     fireEvent.click(wishlistIcon);
     
-    screen.debug()
     // Check if removeFromWishlist is called
     await waitFor(() => {
       expect(removeFromWishlistMock).toBeCalledWith(mockMovie.id);
@@ -200,6 +199,7 @@ describe('Details Component', () => {
       { id: 1, name: 'Actor 1', character: 'Character 1' },
       { id: 2, name: 'Actor 2', character: 'Character 2' },
     ];
+
     (fetchMovieDetails as vi.Mock).mockResolvedValue(mockMovie);
     (fetchMovieCast as vi.Mock).mockResolvedValue(mockCast);
 

@@ -1,5 +1,6 @@
 # Node.js dependencies
 /node_modules
+/node_modules/*
 
 # Ignore Vite cache inside node_modules
 /node_modules/.vite

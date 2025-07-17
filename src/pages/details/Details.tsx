@@ -111,6 +111,7 @@ const Details: React.FC = () => {
       className={`details-container ${
         selectedCategory && selectedCategory.toLowerCase().replace(/\s+/g, "")
       }`}
+      data-testid="details-container"
     >
       <div className="details-content">
         <div className="movie-poster">
