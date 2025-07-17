@@ -1,0 +1,24 @@
+.footer {
+  background: linear-gradient(#191919, #34373a); // Match the header and home background
+  color: rgba(255, 255, 255, 0.8); // Slightly transparent white for text
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); // Subtle border for separation
+  box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.4); // Subtle shadow for depth
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8); // Ensure readability
+  }
+
+  a {
+    color: #007bff; // Highlight color for links
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

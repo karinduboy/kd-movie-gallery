@@ -1,0 +1,219 @@
+.details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; // Center the content vertically
+    padding: 20px;
+    min-width: 800px;
+		width: auto; // Minimum width for the container
+    max-width: 1200px; // Maximum width for the container
+    margin: 0 auto; // Center horizontally
+    color: white; // Default text color for readability
+    background: linear-gradient(#191919, #34373a);
+
+    // Category-specific styles
+    &.trending {
+        background: linear-gradient(#3c0505, rgb(33, 32, 32));
+        font-family: 'Winky Rough', cursive; // Font for trending
+        .wishlist-icon svg {
+            fill: red;
+        }
+    }
+
+    &.popular {
+        background: #4a3a00;
+        font-family: 'Limelight', cursive; // Font for popular
+        .wishlist-icon svg {
+            fill: #e18d0c;
+        }
+    }
+
+    &.toprated {
+        background: #003d00;
+        font-family: 'Roboto Condensed', sans-serif; // Font for top-rated
+        .wishlist-icon svg {
+            fill: #35af01;
+        }
+    }
+
+    &.nowplaying {
+        background: #043740;
+        font-family: 'Bangers', cursive; // Font for now-playing
+        .wishlist-icon svg {
+            fill: #23bcd6;
+        }
+    }
+
+    .details-content {
+        display: flex;
+        align-items: flex-start; // Align items to the top
+        gap: 20px; // Gap between movie-poster and movie-info
+        width: 100%;
+        max-width: 1200px; // Maximum width for the content
+        margin: 0 auto; // Center horizontally
+        border-radius: 15px;
+        background: linear-gradient(transparent, black);
+        box-shadow: 6px 12px 12px rgba(0, 0, 0, 0.704);
+        transition: box-shadow 0.3s ease;
+
+        .movie-poster {
+            position: relative; // For positioning the wishlist icon
+            width: 450px;
+            height: 600px;
+            aspect-ratio: 3 / 4; // Maintain aspect ratio
+            border-radius: 10px;
+            flex-shrink: 0;
+            margin-bottom: 20px;
+						.wishlist-icon {
+							position: absolute;
+							z-index: 2;
+							top: 0px;
+							right: 0px;
+							width: 60px;
+							height: 60px;
+							cursor: pointer;
+							background: rgba(0, 0, 0, 0.35); // Semi-transparent background for better visibility
+							border-radius: 10px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							transition: background 0.3s ease;
+
+							svg {
+								width: 40px;
+								height: 40px;
+								transition: fill 0.3s ease;
+							}
+
+							&:hover {
+								background: rgba(255, 255, 255, 0.2); // Highlight background on hover
+							}
+					}
+
+            img {
+							width: 100%;
+							height: 100%;
+							border-radius: 10px;
+							box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .movie-info {
+            text-align: center;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+						padding: 20px;
+            
+            .movie-title {
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .movie-release-runtime {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+
+                .release-date,
+                .runtime {
+                    font-size: 1rem;
+                    color: rgba(255, 255, 255, 0.6); // Subtle text for release date and runtime
+                }
+            }
+
+            .movie-rating {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 20px;
+
+                .rating-label {
+                    font-size: 1rem;
+                    font-weight: bold;
+                }
+
+                .star-rating {
+                    display: flex;
+                    gap: 5px;
+
+                    .star {
+                        width: 24px;
+                        height: 24px;
+                        fill: #ccc; // Default color for empty stars
+                        transition: fill 0.3s ease;
+
+                        &.filled {
+                            fill: #ffd700; // Gold color for filled stars
+                        }
+                    }
+                }
+            }
+
+						.movie-genres{
+							display: flex;
+							flex-wrap: wrap;
+							justify-content: flex-start;
+							.genres-label{
+								font-size: 1rem;
+								font-weight: bold;
+								// margin-right: 10px; // Space between label and genres
+							} // Center the genres
+							.genres-list{
+								display: flex;
+								flex-wrap: wrap; // Allow genres to wrap
+								gap: 5px; // Space between genres
+								list-style: none; // Remove default list styling
+								.genre-item {		
+									font-size: 0.9rem;
+									color: rgba(255, 255, 255, 0.8); // Slightly transparent white for genres
+									background: rgba(255, 255, 255, 0.1); // Subtle background for genres
+									border-radius: 5px;
+									padding: 2px 5px; // Padding for better spacing
+									transition: background 0.3s ease;
+								}
+							}
+						}
+
+            .movie-overview {
+                font-size: 1.2rem;
+                margin-top: auto; // Push the overview to the bottom
+                line-height: 1.5;
+                color: rgba(255, 255, 255, 0.8); // Slightly transparent white for readability
+            }
+        }
+    }
+
+    .movie-cast{
+				display: flex;
+				gap: 5px;
+				.cast-list {
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center; // Center the cast list
+					gap: 10px; // Space between cast members
+					margin-top: 20px; 
+					list-style: none; // Remove default list styling
+					.cast-item{
+						.actor-name{
+							font-size: 1rem;
+							color: rgba(255, 255, 255, 0.8); // Slightly transparent white for readability
+							text-transform: uppercase;
+							color: #ccc;
+							margin-left: 5px;
+							:first-child {
+								margin-left: 0; // Space after the last actor
+							}
+						}
+						.actor-character {
+							font-size: 0.9rem;
+							color: rgba(255, 255, 255, 0.6); // Slightly transparent white for character names
+							margin-left: 2px; // Space between name and character
+						}
+					}// Space above the cast list
+				}
+		}
+}

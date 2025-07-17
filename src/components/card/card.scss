@@ -1,0 +1,64 @@
+.card-container {
+  position: relative;
+  background: #1e1e1e;
+  width: 180px;
+  height: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(205, 205, 205, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 12px rgba(209, 209, 209, 0.25);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+
+    .movie-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .wishlist-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.6); // Semi-transparent background for better visibility
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.75s ease;
+
+      svg {
+        width: 20px;
+        height: 20px;
+        transition: fill 0.5s ease;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.8);
+        transition: transform 0.5 s ease, background 0.65s ease;
+        cursor: pointer;
+
+        svg {
+          transition: fill 0.5s ease;
+        }
+      }
+    }
+  }
+}
