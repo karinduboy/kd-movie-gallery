@@ -117,17 +117,15 @@ yarn test:coverage
 
 #### Home Page
 
-![HomePage1](image.png)
-
-![HomePage-footer](image-1.png)
+![HomePage](image.png)
 
 #### Movie Details
 
-![DetailsPage](image-2.png)
+![DetailsPage](image-4.png)
 
 #### WishList
 
-![WishList](image-3.png)
+![WishList](image-5.png))
 
 ## 🌟 Features in Development
 
