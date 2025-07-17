@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { WishListMovie } from '../types/movies';
-import { parse } from 'path';
 
 interface WishlistContextProps {
   wishlist: WishListMovie[];
@@ -10,20 +9,17 @@ interface WishlistContextProps {
 }
 
 
-const WishlistContext = createContext<WishlistContextProps | undefined>(undefined);
+export const WishlistContext = createContext<WishlistContextProps | undefined>(undefined);
 
 export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [wishlist, setWishlist] = useState<WishListMovie[]>(() => {
     const storedWishlist = Cookies.get('wishlist');
-    console.log('Initializing wishlist from cookies:', storedWishlist);
     return storedWishlist ? (JSON.parse(storedWishlist) as WishListMovie[]) : [];
   });
 
   // Load wishlist from cookies on initial render
   useEffect(() => {
-    console.log('Loading wishlist from cookies', Cookies.get('wishlist'));
     const storedWishlist = Cookies.get('wishlist');
-    console.log('Stored wishlist:', storedWishlist);
     const parsedWishlist = storedWishlist ? JSON.parse(storedWishlist) : null;
     if (parsedWishlist) {
       setWishlist(parsedWishlist as WishListMovie[]);
@@ -32,7 +28,6 @@ export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   // Save wishlist to cookies whenever it changes
   useEffect(() => {
-    console.log('Updating wishlist to cookies:', wishlist);
     Cookies.set('wishlist', JSON.stringify(wishlist), { expires: 7 , path: '/'}); // Expires in 7 days
   }, [wishlist]);
 

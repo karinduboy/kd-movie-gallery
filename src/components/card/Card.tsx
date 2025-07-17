@@ -40,14 +40,14 @@ const Card: React.FC<MovieCard> = (props) => {
   };
 
   return (
-    <div className="card-container" data-movie-id={id} onClick={handleCardClick}>
+    <div className="card-container" data-movie-id={id} onClick={handleCardClick} data-testid="card-container">
       <div className="image-container">
         <img src={poster_path} alt={title} className="movie-image" />
-        <div className="wishlist-icon" onClick={handleWishlistToggle}>
+        <div className="wishlist-icon" onClick={handleWishlistToggle} data-testid="wishlist-icon">
         {isFavorite ? (
-            <WishlistAddedLogo style={{ fill: categoryColors[category]}} />
+            <WishlistAddedLogo style={{ fill: categoryColors[category]}} data-testis="wishlist-added-icon"/>
           ) : (
-            <WishlistLogo style={{ fill: categoryColors[category]}} />
+            <WishlistLogo style={{ fill: categoryColors[category]}} data-testis="wishlist-icon"/>
           )}
         </div>
       </div>

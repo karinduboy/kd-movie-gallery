@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useWishlist } from "../../context/WishlistContext";
 import "./Details.scss";
@@ -20,21 +20,25 @@ const Details: React.FC = () => {
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const { selectedCategory } = useCategory();
-  const [isFavorite, setIsFavorite] = useState(false);
   const [movieCast, setMovieCast] = useState<Actor[]>([]); // Assuming you will fetch and set movie cast later
-
+  
   const checkMoviePreference = (id: number) =>
     wishlist.some((item) => item.id === Number(movieId));
 
-  const handleWishListClick = () => {
+  // const [isFavorite, setIsFavorite] = useState(checkMoviePreference(Number(movieId)));
+  const isFavorite = useMemo(() => checkMoviePreference(Number(movieId)), [wishlist, movieId]);
+
+  const handleWishListClick = (movieId: string, movie?:MovieDetails) => {
     if (isFavorite) {
       removeFromWishlist(Number(movieId));
+      // setIsFavorite(false);
     } else {
       addToWishlist({
         id: Number(movieId),
-        title: movie?.title || "",
+        title: movie?.title ||"",
         poster_path: movie?.poster_path || "",
       });
+      // setIsFavorite(true);
     }
   };
 
@@ -46,6 +50,9 @@ const Details: React.FC = () => {
     for (let i = 1; i <= maxStars; i++) {
       stars.push(
         <svg
+          name="rating-star"
+          role="img"
+          aria-label="rating-star"
           key={i}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -72,13 +79,11 @@ const Details: React.FC = () => {
           character: actor.character
         }));
         setMovieCast(castNames.slice(0, 10));
-        console.log("Fetched movie cast:", castNames);
 
         const movie = transformMovieDetails(movieDetails);
-        console.log("Transformed movie data:", movie);
         
         setMovie(movie);
-        setIsFavorite(checkMoviePreference(Number(movieId)));
+        // setIsFavorite(checkMoviePreference(Number(movieId)));
       } catch (error) {
         console.error("Error fetching movie details:", error);
       } finally {
@@ -89,9 +94,9 @@ const Details: React.FC = () => {
     retrieveMovieDetails();
   }, [movieId]);
 
-  useEffect(() => {
-    setIsFavorite(checkMoviePreference(Number(movieId)));
-  }, [wishlist]);
+  // useEffect(() => {
+  //   setIsFavorite(checkMoviePreference(Number(movieId)));
+  // }, [wishlist, movieId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -109,7 +114,11 @@ const Details: React.FC = () => {
     >
       <div className="details-content">
         <div className="movie-poster">
-          <div className="wishlist-icon" onClick={handleWishListClick}>
+          <div 
+            className="wishlist-icon" 
+            onClick={()=>handleWishListClick (movieId || "", movie)} 
+            data-testid="wishlist-icon-details"
+          >
             {!isFavorite ? (<WishlistLogo />) : selectedCategory === Category.TRENDING ? (<WishListAddedTrending />) : selectedCategory === Category.POPULAR ? (
               <WishlistFilledLogo />) : selectedCategory === Category.TOP_RATED ? (<WishlistAddedTopRated />) : (
               selectedCategory === Category.NOW_PLAYING && (<WishlistAddedNowPlaying />)
@@ -149,11 +158,11 @@ const Details: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="movie-cast">
-        <ul className="cast-list">
+      <div className="movie-cast" data-testid="movie-cast">
+        <ul className="cast-list" data-testid="cast-list">
           {movieCast.length > 0 ? (
             movieCast.map((actor) => (
-              <li key={actor.id} className="cast-item">
+              <li key={actor.id} className="cast-item" data-testid={`cast-item`}>
                 <span className="actor-name">{actor.name}</span>
                 <span className="actor-character"> "{actor.character}"</span>
               </li>

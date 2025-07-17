@@ -1,6 +1,7 @@
 /// <reference types="./src/vite-env.d.ts" />
 /// <reference types="vite-plugin-svgr/client" />
-/// <reference types="vite/client" />
+/// <reference types="vitest/config" />
+/// <reference types="vitest/globals" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';

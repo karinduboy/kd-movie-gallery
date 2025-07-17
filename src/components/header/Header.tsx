@@ -23,19 +23,19 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="logo">
         <Link to="/">
-          <Logo />
+          <Logo data-testid="logo"/>
         </Link>
       </div>
       <div className="wishlist-container" onClick={() => setIsModalOpen(true)}>
-        <WishlistLogo className="wishlist-icon" />
+        <WishlistLogo className="wishlist-icon" data-testid="wishlist-icon"/>
         {wishlist.length > 0 && (
           <div className="wishlist-count">{wishlist.length}</div>
         )}
       </div>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} data-testid="wishlist-modal">
         <div className="wishlist-modal">
-          <h2>Your Wishlist</h2>
-          <ul>
+          <h2 data-testid="wishlist-title">Your Wishlist</h2>
+          {wishlist.length > 0 ? <ul>
             {wishlist.map((movie) => (
               <li key={movie.id}>
                 <img src={movie.poster_path} alt={movie.title} />
@@ -50,7 +50,12 @@ const Header: React.FC = () => {
                 </div>
               </li>
             ))}
-          </ul>
+          </ul> : (
+            <div className="empty-wishlist">
+              <WishListAdded />
+              <p>Your wishlist is empty</p>
+            </div>
+          )}
         </div>
       </Modal>
     </header>

@@ -15,9 +15,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose} data-testid="modal-overlay">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-close" onClick={onClose}>
+        <div className="modal-close" onClick={onClose} data-testid="modal-close-icon">
           <CloseIcon />
         </div>
         {children}

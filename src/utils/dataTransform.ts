@@ -1,3 +1,4 @@
+import { Category, TrendingPeriod, MoviesList } from "../types/configuration";
 import { MovieDetails, MovieInformation } from "../types/movies";
 
 export const transformMovieDetails = (movie: MovieInformation): MovieDetails => {
@@ -24,3 +25,34 @@ export const transformMovieDetails = (movie: MovieInformation): MovieDetails => 
 
   return transformedMovie;
 };
+
+export const getMoviesListValueForCategory = (category: Category, trendingPeriod?: TrendingPeriod): MoviesList => {
+  if (category === Category.TRENDING) {
+    return trendingPeriod === TrendingPeriod.Day ? MoviesList.TrendingDay : MoviesList.TrendingWeek;
+  }
+  switch (category) {
+    case Category.POPULAR:
+      return MoviesList.Popular;
+    case Category.TOP_RATED:
+      return MoviesList.TopRated;
+    case Category.NOW_PLAYING:
+      return MoviesList.NowPlaying;
+    default:
+      throw new Error(`Unknown category: ${category}`);
+  }
+};
+
+export const getTitleForCategory = (category: Category): string => {
+  switch (category) {
+    case Category.TRENDING:
+      return "Trending Movies";
+    case Category.POPULAR:
+      return "Popular Movies";
+    case Category.TOP_RATED:
+      return "Top Rated Movies";
+    case Category.NOW_PLAYING:
+      return "Now Playing Movies";
+    default:
+      throw new Error(`Unknown category: ${category}`);
+  }
+}

@@ -5,13 +5,13 @@ import Card from '../card/Card';
 import './carousel.scss';
 
 
-const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading, category = Category.POPULAR }) => {
+const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading, category = Category.TRENDING }) => {
   const results = movies.results || [];
   
   if (loading) {
     // Render skeleton loader while loading
     return (
-      <div className="carousel-skeleton">
+      <div className="carousel-skeleton" data-testid={`${category}-skeleton-container`}>
         {Array.from({ length: 5 }).map((_, index) => (
           <div key={index} className="skeleton-card"></div>
         ))}
@@ -24,7 +24,7 @@ const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading, categ
   }
 
   return (
-    <div className="carousel-container">
+    <div className="carousel-container" data-testid={`${category}-carousel-container`}>
       <div className="carousel">
         {results
           .filter((movie: { id: React.Key | null | undefined }) => typeof movie.id === 'number')
@@ -33,8 +33,10 @@ const Carousel: React.FC<CarouselProps> = ({ movies, onCardClick, loading, categ
               key={movie.id}
               className="carousel-card"
               onClick={onCardClick}
+              data-testid="carousel-card"
             >
               <Card
+                data-testid={`card-${movie.id}`}
                 id={movie.id}
                 poster_path={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
                 isFavorite={false}
